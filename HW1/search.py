@@ -127,6 +127,43 @@ def depthFirstSearch(problem):
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
+
+    # MyStack is created as Stack...
+    MyStack = util.Queue()
+
+    # VisitedList is an empty Array filled with
+    # Checked Nodes.
+    VisitedList = []
+
+    # initial nodes are added to Stack
+    MyStack.push((problem.getStartState(), []))
+
+    # As long As the Stack is not empty
+    # pops nodes to List from MyStack
+    while not MyStack.isEmpty():
+        List = MyStack.pop()
+
+        # Checked node is added to VisitedList
+        VisitedList.append(List[0])
+
+        # if the first node is goal returns first node's direction
+        if problem.isGoalState(List[0]):
+            return List[1]
+
+        # if goal isn't found yet, children are expanded
+        for next in problem.getSuccessors(List[0]):
+            Name = next[0]
+            Path = next[1]
+
+            # add to MyStack for the next time
+            if Name not in VisitedList:
+                MyStack.push((Name, List[1] + [Path]))
+
+    # if search is unsuccessful
+    return ["Goal Not Found!!"]
+
+
+
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
