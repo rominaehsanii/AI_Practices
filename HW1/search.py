@@ -123,6 +123,7 @@ def depthFirstSearch(problem):
     return ["Goal Not Found!!"]
 
 
+
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
@@ -203,14 +204,15 @@ def uniformCostSearch(problem):
                 MyQueue.push((Name, List[1] + [Path]), problem.getCostOfActions(List[1] + [Path]))
                 MyList.append(next[0])
 
-            else:
+                else:
                 MyQueue.update((Name, List[1] + [Path]),
                                problem.getCostOfActions(List[1] + [Path]))
 
         # if search is unsuccessful
         return ["Goal Not Found!!"]
 
-    util.raiseNotDefined()
+
+util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
     """
@@ -222,6 +224,48 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+
+    # list of nodes to check whether the state has been checked
+    # and update the cost
+
+    MyList = []
+    MyList.append(problem.getStartState())
+
+    MyQueue = util.PriorityQueue()
+
+    MyQueue.push((problem.getStartState(), []), heuristic(problem.getStartState(),problem))
+
+    # an empty array for visited nodes
+
+    VisitedList = []
+
+    while not MyQueue.isEmpty():
+        List = MyQueue.pop()
+        MyList.remove(List[0])
+
+        if problem.isGoalState(List[0]):
+            return List[1]
+
+        if List[0] not in VisitedList:
+            VisitedList.append(List[0])
+
+        for next in problem.getSuccessors(List[0]):
+            Name = next[0]
+            Path = next[1]
+
+            # add to MyStack for the next time
+            if Name not in MyList:
+                MyQueue.push((Name, List[1] + [Path]),
+                             heuristic(Name, problem)+problem.getCostOfActions(List[1] + [Path]))
+                MyList.append(next[0])
+
+                else:
+                MyQueue.update((Name, List[1] + [Path]),
+                               heuristic(Name, problem)+problem.getCostOfActions(List[1] + [Path]))
+
+        # if search is unsuccessful
+        return ["Goal Not Found!!"]
+
     util.raiseNotDefined()
 
 
